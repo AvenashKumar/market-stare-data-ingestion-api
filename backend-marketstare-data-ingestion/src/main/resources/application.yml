@@ -2,8 +2,6 @@ server:
   port: ${PORT:8081}
 
 spring:
-  main:
-    lazy-initialization: true
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb+srv://avenash:UqPdlVMkyLrANdFB@cluster-market-stare.nzz0g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority}
