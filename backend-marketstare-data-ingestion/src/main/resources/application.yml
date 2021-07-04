@@ -1,0 +1,26 @@
+server:
+  port: ${PORT:8081}
+
+spring:
+  main:
+    lazy-initialization: true
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb+srv://avenash:UqPdlVMkyLrANdFB@cluster-market-stare.nzz0g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority}
+      database: ${MONGODB_DATABASE:test}
+      auto-index-creation: true
+
+security:
+  username: ultimate
+  password: $2a$10$TzSJoEzPMlJ.n7TxNepvyOq1TYNOaWsnftm9gjgnKh4aIbrecy8Ji
+  role: ADMIN
+  allowed-origins:
+    - http://localhost:3000
+    - http://localhost:5000
+    - https://market-stare.web.app
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
