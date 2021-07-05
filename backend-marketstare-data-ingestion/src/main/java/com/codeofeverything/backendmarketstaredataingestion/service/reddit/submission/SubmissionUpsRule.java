@@ -1,4 +1,4 @@
-package com.codeofeverything.backendmarketstaredataingestion.service.reddit;
+package com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission;
 
 import com.codeofeverything.backendmarketstaredataingestion.configuration.reddit.RedditConfigs;
 import com.codeofeverything.backendmarketstaredataingestion.model.Submission;
@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SubmissionIgnoredAuthorRule implements IEligibleSubmissionRule {
+public class SubmissionUpsRule implements IEligibleSubmissionRule {
 
   private final RedditConfigs redditConfigs;
 
   @Autowired
-  public SubmissionIgnoredAuthorRule(RedditConfigs redditConfigs) {
+  public SubmissionUpsRule(RedditConfigs redditConfigs) {
     this.redditConfigs = redditConfigs;
   }
 
   @Override
   public boolean validate(Submission submission) {
-    final String author = submission.getAuthor();
-    if(ObjectUtils.isEmpty(author))
+    final Integer ups = submission.getUps();
+    if(ObjectUtils.isEmpty(ups))
       return false;
 
-    return !redditConfigs.getSubmissionIgnoredAuthors().contains(author.toLowerCase());
+    return ups >= this.redditConfigs.getSubmissionUpsThreshold();
   }
 
   @Override
-  public EDataCleanRule getEligibleValidatorName() {
-    return EDataCleanRule.SUBMISSION_IGNORED_AUTHORS;
+  public ESubmissionCleanRule getEligibleValidatorName() {
+    return ESubmissionCleanRule.SUBMISSION_UPS;
   }
 }

@@ -1,4 +1,4 @@
-package com.codeofeverything.backendmarketstaredataingestion.service.reddit;
+package com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission;
 
 import com.codeofeverything.backendmarketstaredataingestion.configuration.reddit.RedditConfigs;
 import com.codeofeverything.backendmarketstaredataingestion.model.Submission;
@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SubmissionUpsRule implements IEligibleSubmissionRule {
+public class SubmissionFlairRule implements IEligibleSubmissionRule {
 
   private final RedditConfigs redditConfigs;
 
   @Autowired
-  public SubmissionUpsRule(RedditConfigs redditConfigs) {
+  public SubmissionFlairRule(RedditConfigs redditConfigs) {
     this.redditConfigs = redditConfigs;
   }
 
   @Override
   public boolean validate(Submission submission) {
-    final Integer ups = submission.getUps();
-    if(ObjectUtils.isEmpty(ups))
-      return false;
+    final String flair = submission.getFlair();
+    if(ObjectUtils.isEmpty(flair))
+      return true;
 
-    return ups >= this.redditConfigs.getSubmissionUpsThreshold();
+    return redditConfigs.getSubmissionFlairs().contains(flair.toLowerCase());
   }
 
   @Override
-  public EDataCleanRule getEligibleValidatorName() {
-    return EDataCleanRule.SUBMISSION_UPS;
+  public ESubmissionCleanRule getEligibleValidatorName() {
+    return ESubmissionCleanRule.SUBMISSION_FLAIR;
   }
 }

@@ -4,13 +4,16 @@ import com.codeofeverything.backendmarketstaredataingestion.entity.SentimentAnal
 import com.codeofeverything.backendmarketstaredataingestion.entity.SentimentAnalysisHelperVocabEntity;
 import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalysisBlacklistVocabRepo;
 import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalysisHelperVocabRepo;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.EDataCleanRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.IEligibleSubmissionRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionCommentIgnoredAuthorRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionFlairRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionIgnoredAuthorRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionUpsRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionUpvoteRatioRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.ESubmissionCleanRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.IEligibleSubmissionRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionCommentCleanRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.comment.ESubmissionCommentCleanRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.comment.IEligibleSubmissionCommentRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.comment.SubmissionCommentIgnoredAuthorRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionFlairRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionIgnoredAuthorRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionUpsRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionUpvoteRatioRule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +37,8 @@ public class AppConfigs {
 
   private final SubmissionIgnoredAuthorRule submissionIgnoredAuthorRule;
 
+  private SubmissionCommentCleanRule submissionCommentCleanRule;
+
   private final SubmissionCommentIgnoredAuthorRule submissionCommentIgnoredAuthorRule;
 
   @Autowired
@@ -52,6 +57,11 @@ public class AppConfigs {
     this.submissionFlairRule = submissionFlairRule;
     this.submissionIgnoredAuthorRule = submissionIgnoredAuthorRule;
     this.submissionCommentIgnoredAuthorRule = submissionCommentIgnoredAuthorRule;
+  }
+
+  @Autowired
+  public void setSubmissionCommentCleanRule(SubmissionCommentCleanRule submissionCommentCleanRule) {
+    this.submissionCommentCleanRule = submissionCommentCleanRule;
   }
 
   @Bean
@@ -75,15 +85,20 @@ public class AppConfigs {
   }
 
   @Bean
-  Map<EDataCleanRule, IEligibleSubmissionRule> redditRulesMap(){
-    Map<EDataCleanRule, IEligibleSubmissionRule> mapRedditRules=new HashMap<>();
-    mapRedditRules.put(EDataCleanRule.SUBMISSION_UPVOTE_RATIO, submissionUpvoteRatioRule);
-    mapRedditRules.put(EDataCleanRule.SUBMISSION_UPS, submissionUpsRule);
-    mapRedditRules.put(EDataCleanRule.SUBMISSION_FLAIR, submissionFlairRule);
-    mapRedditRules.put(EDataCleanRule.SUBMISSION_IGNORED_AUTHORS, submissionIgnoredAuthorRule);
-    mapRedditRules.put(EDataCleanRule.SUBMISSION_COMMENT_IGNORED_AUTHORS, submissionCommentIgnoredAuthorRule);
+  Map<ESubmissionCleanRule, IEligibleSubmissionRule> redditSubmissionRulesMap(){
+    Map<ESubmissionCleanRule, IEligibleSubmissionRule> mapRedditRules=new HashMap<>();
+    mapRedditRules.put(ESubmissionCleanRule.SUBMISSION_UPVOTE_RATIO, submissionUpvoteRatioRule);
+    mapRedditRules.put(ESubmissionCleanRule.SUBMISSION_UPS, submissionUpsRule);
+    mapRedditRules.put(ESubmissionCleanRule.SUBMISSION_FLAIR, submissionFlairRule);
+    mapRedditRules.put(ESubmissionCleanRule.SUBMISSION_IGNORED_AUTHORS, submissionIgnoredAuthorRule);
+    mapRedditRules.put(ESubmissionCleanRule.SUBMISSION_COMMENT_CLEAN, submissionCommentCleanRule);
+    return mapRedditRules;
+  }
 
-
+  @Bean
+  Map<ESubmissionCommentCleanRule, IEligibleSubmissionCommentRule> redditSubmissionCommentRulesMap(){
+    Map<ESubmissionCommentCleanRule, IEligibleSubmissionCommentRule> mapRedditRules=new HashMap<>();
+    mapRedditRules.put(ESubmissionCommentCleanRule.SUBMISSION_COMMENT_IGNORED_AUTHORS, submissionCommentIgnoredAuthorRule);
     return mapRedditRules;
   }
 }

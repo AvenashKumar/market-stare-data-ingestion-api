@@ -1,4 +1,4 @@
-package com.codeofeverything.backendmarketstaredataingestion.service.reddit;
+package com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission;
 
 import com.codeofeverything.backendmarketstaredataingestion.configuration.reddit.RedditConfigs;
 import com.codeofeverything.backendmarketstaredataingestion.model.Submission;
@@ -26,7 +26,7 @@ public class SubmissionUpvoteRatioRule implements IEligibleSubmissionRule {
   }
 
   @Override
-  public EDataCleanRule getEligibleValidatorName() {
-    return EDataCleanRule.SUBMISSION_UPVOTE_RATIO;
+  public ESubmissionCleanRule getEligibleValidatorName() {
+    return ESubmissionCleanRule.SUBMISSION_UPVOTE_RATIO;
   }
 }
