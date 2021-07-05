@@ -25,7 +25,7 @@ public class SentimentAnalysisBlacklistVocabService {
 
     SentimentAnalysisBlacklistVocabEntity blacklistVocabEntity
         = optionalSentimentBlacklistVocabEntity.orElse(new SentimentAnalysisBlacklistVocabEntity());
-    blacklistVocabEntity.setWord(sentimentBlacklistVocab.getWord());
+    blacklistVocabEntity.setWord(sentimentBlacklistVocab.getWord().toUpperCase());
     return blacklistVocabEntity;
   }
 
@@ -33,7 +33,7 @@ public class SentimentAnalysisBlacklistVocabService {
     List<SentimentAnalysisBlacklistVocabEntity> blacklistVocabEntities = new ArrayList<>();
     sentimentAnalysisBlacklistVocabs.forEach(sentimentAnalysisBlacklistVocab -> {
       final Optional<SentimentAnalysisBlacklistVocabEntity> optExistingSubmission =
-          sentimentAnalysisBlacklistVocabRepo.findByWord(sentimentAnalysisBlacklistVocab.getWord());
+          sentimentAnalysisBlacklistVocabRepo.findByWord(sentimentAnalysisBlacklistVocab.getWord().toUpperCase());
       final SentimentAnalysisBlacklistVocabEntity blacklistVocabEntity = updateSentimentAnalysisBlacklistVocabEntity(sentimentAnalysisBlacklistVocab, optExistingSubmission);
       blacklistVocabEntities.add(blacklistVocabEntity);
     });

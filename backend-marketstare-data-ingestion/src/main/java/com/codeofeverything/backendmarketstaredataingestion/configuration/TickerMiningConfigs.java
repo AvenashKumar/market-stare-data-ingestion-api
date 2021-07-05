@@ -2,6 +2,7 @@ package com.codeofeverything.backendmarketstaredataingestion.configuration;
 
 import com.codeofeverything.backendmarketstaredataingestion.service.rule.mining.ETickerMiningRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.rule.mining.ITickerMiningRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.rule.mining.TickerBlackListRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.rule.mining.TickerMaxLengthRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.rule.mining.TickerUpperCaseRule;
 import java.util.LinkedHashMap;
@@ -14,13 +15,16 @@ import org.springframework.context.annotation.Configuration;
 public class TickerMiningConfigs {
   private final TickerUpperCaseRule tickerUpperCaseRule;
   private final TickerMaxLengthRule tickerMaxLengthRule;
+  private final TickerBlackListRule tickerBlackListRule;
 
   @Autowired
   public TickerMiningConfigs(
       TickerUpperCaseRule tickerUpperCaseRule,
-      TickerMaxLengthRule tickerMaxLengthRule) {
+      TickerMaxLengthRule tickerMaxLengthRule,
+      TickerBlackListRule tickerBlackListRule) {
     this.tickerUpperCaseRule = tickerUpperCaseRule;
     this.tickerMaxLengthRule = tickerMaxLengthRule;
+    this.tickerBlackListRule = tickerBlackListRule;
   }
 
   @Bean
@@ -28,6 +32,7 @@ public class TickerMiningConfigs {
     Map<ETickerMiningRule, ITickerMiningRule> mapTickerMiningRules = new LinkedHashMap<>();
     mapTickerMiningRules.put(ETickerMiningRule.TICKER_UPPER_CASE, tickerUpperCaseRule);
     mapTickerMiningRules.put(ETickerMiningRule.TICKER_MAX_LENGTH, tickerMaxLengthRule);
+    mapTickerMiningRules.put(ETickerMiningRule.TICKER_BLACK_LIST, tickerBlackListRule);
 
     return mapTickerMiningRules;
   }

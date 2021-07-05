@@ -19,6 +19,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -85,8 +87,9 @@ public class AppConfigs {
   }
 
   @Bean
-  List<SentimentAnalysisBlacklistVocabEntity> findAllBlacklistVocabs(){
-    return blacklistVocabRepo.findAll();
+  TreeSet<String> findAllBlacklistVocabs(){
+    return blacklistVocabRepo.findAll().stream().map(SentimentAnalysisBlacklistVocabEntity::getWord)
+        .collect(Collectors.toCollection(TreeSet::new));
   }
 
   @Bean
