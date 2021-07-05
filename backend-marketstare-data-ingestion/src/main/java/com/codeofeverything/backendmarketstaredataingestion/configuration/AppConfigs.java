@@ -6,6 +6,7 @@ import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalys
 import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalysisHelperVocabRepo;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.EDataCleanRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.IEligibleSubmissionRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionFlairRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionUpsRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionUpvoteRatioRule;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,16 +28,20 @@ public class AppConfigs {
 
   private final SubmissionUpsRule submissionUpsRule;
 
+  private final SubmissionFlairRule submissionFlairRule;
+
   @Autowired
   public AppConfigs(
       SentimentAnalysisHelperVocabRepo helperVocabRepo,
       SentimentAnalysisBlacklistVocabRepo blacklistVocabRepo,
       SubmissionUpvoteRatioRule submissionUpvoteRatioRule,
-      SubmissionUpsRule submissionUpsRule) {
+      SubmissionUpsRule submissionUpsRule,
+      SubmissionFlairRule submissionFlairRule) {
     this.helperVocabRepo = helperVocabRepo;
     this.blacklistVocabRepo = blacklistVocabRepo;
     this.submissionUpvoteRatioRule = submissionUpvoteRatioRule;
     this.submissionUpsRule = submissionUpsRule;
+    this.submissionFlairRule = submissionFlairRule;
   }
 
   @Bean
@@ -64,6 +69,7 @@ public class AppConfigs {
     Map<EDataCleanRule, IEligibleSubmissionRule> mapRedditRules=new HashMap<>();
     mapRedditRules.put(EDataCleanRule.SUBMISSION_UPVOTE_RATIO, submissionUpvoteRatioRule);
     mapRedditRules.put(EDataCleanRule.SUBMISSION_UPS, submissionUpsRule);
+    mapRedditRules.put(EDataCleanRule.SUBMISSION_FLAIR, submissionFlairRule);
 
     return mapRedditRules;
   }

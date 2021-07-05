@@ -1,5 +1,6 @@
 package com.codeofeverything.backendmarketstaredataingestion.configuration.reddit;
 
+import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,4 +15,5 @@ import org.springframework.context.annotation.Configuration;
 public class RedditConfigs {
   private Double submissionUpvoteRatioThreshold;
   private Integer submissionUpsThreshold;
+  private Set<String> submissionFlairs;
 }
