@@ -6,7 +6,9 @@ import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalys
 import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalysisHelperVocabRepo;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.EDataCleanRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.IEligibleSubmissionRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionCommentIgnoredAuthorRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionFlairRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionIgnoredAuthorRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionUpsRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.SubmissionUpvoteRatioRule;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,18 +32,26 @@ public class AppConfigs {
 
   private final SubmissionFlairRule submissionFlairRule;
 
+  private final SubmissionIgnoredAuthorRule submissionIgnoredAuthorRule;
+
+  private final SubmissionCommentIgnoredAuthorRule submissionCommentIgnoredAuthorRule;
+
   @Autowired
   public AppConfigs(
       SentimentAnalysisHelperVocabRepo helperVocabRepo,
       SentimentAnalysisBlacklistVocabRepo blacklistVocabRepo,
       SubmissionUpvoteRatioRule submissionUpvoteRatioRule,
       SubmissionUpsRule submissionUpsRule,
-      SubmissionFlairRule submissionFlairRule) {
+      SubmissionFlairRule submissionFlairRule,
+      SubmissionIgnoredAuthorRule submissionIgnoredAuthorRule,
+      SubmissionCommentIgnoredAuthorRule submissionCommentIgnoredAuthorRule) {
     this.helperVocabRepo = helperVocabRepo;
     this.blacklistVocabRepo = blacklistVocabRepo;
     this.submissionUpvoteRatioRule = submissionUpvoteRatioRule;
     this.submissionUpsRule = submissionUpsRule;
     this.submissionFlairRule = submissionFlairRule;
+    this.submissionIgnoredAuthorRule = submissionIgnoredAuthorRule;
+    this.submissionCommentIgnoredAuthorRule = submissionCommentIgnoredAuthorRule;
   }
 
   @Bean
@@ -70,6 +80,9 @@ public class AppConfigs {
     mapRedditRules.put(EDataCleanRule.SUBMISSION_UPVOTE_RATIO, submissionUpvoteRatioRule);
     mapRedditRules.put(EDataCleanRule.SUBMISSION_UPS, submissionUpsRule);
     mapRedditRules.put(EDataCleanRule.SUBMISSION_FLAIR, submissionFlairRule);
+    mapRedditRules.put(EDataCleanRule.SUBMISSION_IGNORED_AUTHORS, submissionIgnoredAuthorRule);
+    mapRedditRules.put(EDataCleanRule.SUBMISSION_COMMENT_IGNORED_AUTHORS, submissionCommentIgnoredAuthorRule);
+
 
     return mapRedditRules;
   }

@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SubmissionFlairRule implements IEligibleSubmissionRule {
+public class SubmissionIgnoredAuthorRule implements IEligibleSubmissionRule {
 
   private final RedditConfigs redditConfigs;
 
   @Autowired
-  public SubmissionFlairRule(RedditConfigs redditConfigs) {
+  public SubmissionIgnoredAuthorRule(RedditConfigs redditConfigs) {
     this.redditConfigs = redditConfigs;
   }
 
   @Override
   public boolean validate(Submission submission) {
-    final String flair = submission.getFlair();
-    if(ObjectUtils.isEmpty(flair))
-      return true;
+    final String author = submission.getAuthor();
+    if(ObjectUtils.isEmpty(author))
+      return false;
 
-    return redditConfigs.getSubmissionFlairs().contains(flair.toLowerCase());
+    return !redditConfigs.getSubmissionIgnoredAuthors().contains(author.toLowerCase());
   }
 
   @Override
   public EDataCleanRule getEligibleValidatorName() {
-    return EDataCleanRule.SUBMISSION_FLAIR;
+    return EDataCleanRule.SUBMISSION_IGNORED_AUTHORS;
   }
 }

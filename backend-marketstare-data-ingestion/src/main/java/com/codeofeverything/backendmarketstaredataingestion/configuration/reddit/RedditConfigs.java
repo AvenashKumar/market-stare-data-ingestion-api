@@ -16,4 +16,6 @@ public class RedditConfigs {
   private Double submissionUpvoteRatioThreshold;
   private Integer submissionUpsThreshold;
   private Set<String> submissionFlairs;
+  private Set<String> submissionIgnoredAuthors;
+  private Set<String> submissionCommentIgnoredAuthors;
 }

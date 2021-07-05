@@ -28,6 +28,10 @@ data:
     reddit:
       submission-upvote-ratio-threshold: 0.70
       submission-ups-threshold: 20
+      submission-ignored-authors:
+        - "example"
+      submission-comment-ignored-authors:
+        - "example"
       submission-flairs:
         - "daily discussion"
         - "weekend discussion"
