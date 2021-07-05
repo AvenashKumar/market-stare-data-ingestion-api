@@ -30,9 +30,10 @@ data:
       submission-ups-threshold: 20
       submission-ignored-authors:
         - "example"
-      submission-comment-ignored-authors:
-        - "example"
       submission-flairs:
         - "daily discussion"
         - "weekend discussion"
         - "discussion"
+      submission-comment-ignored-authors:
+        - "example"
+      submission-comment-upvote: 2

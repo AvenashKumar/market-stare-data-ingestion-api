@@ -14,6 +14,7 @@ import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submi
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionIgnoredAuthorRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionUpsRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.SubmissionUpvoteRatioRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.comment.SubmissionCommentUpvoteRule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,8 @@ public class AppConfigs {
 
   private final SubmissionCommentIgnoredAuthorRule submissionCommentIgnoredAuthorRule;
 
+  private final SubmissionCommentUpvoteRule submissionCommentUpvoteRule;
+
   @Autowired
   public AppConfigs(
       SentimentAnalysisHelperVocabRepo helperVocabRepo,
@@ -49,7 +52,8 @@ public class AppConfigs {
       SubmissionUpsRule submissionUpsRule,
       SubmissionFlairRule submissionFlairRule,
       SubmissionIgnoredAuthorRule submissionIgnoredAuthorRule,
-      SubmissionCommentIgnoredAuthorRule submissionCommentIgnoredAuthorRule) {
+      SubmissionCommentIgnoredAuthorRule submissionCommentIgnoredAuthorRule,
+      SubmissionCommentUpvoteRule submissionCommentUpvoteRule) {
     this.helperVocabRepo = helperVocabRepo;
     this.blacklistVocabRepo = blacklistVocabRepo;
     this.submissionUpvoteRatioRule = submissionUpvoteRatioRule;
@@ -57,6 +61,7 @@ public class AppConfigs {
     this.submissionFlairRule = submissionFlairRule;
     this.submissionIgnoredAuthorRule = submissionIgnoredAuthorRule;
     this.submissionCommentIgnoredAuthorRule = submissionCommentIgnoredAuthorRule;
+    this.submissionCommentUpvoteRule = submissionCommentUpvoteRule;
   }
 
   @Autowired
@@ -99,6 +104,7 @@ public class AppConfigs {
   Map<ESubmissionCommentCleanRule, IEligibleSubmissionCommentRule> redditSubmissionCommentRulesMap(){
     Map<ESubmissionCommentCleanRule, IEligibleSubmissionCommentRule> mapRedditRules=new HashMap<>();
     mapRedditRules.put(ESubmissionCommentCleanRule.SUBMISSION_COMMENT_IGNORED_AUTHORS, submissionCommentIgnoredAuthorRule);
+    mapRedditRules.put(ESubmissionCommentCleanRule.SUBMISSION_COMMENT_UPVOTE, submissionCommentUpvoteRule);
     return mapRedditRules;
   }
 }

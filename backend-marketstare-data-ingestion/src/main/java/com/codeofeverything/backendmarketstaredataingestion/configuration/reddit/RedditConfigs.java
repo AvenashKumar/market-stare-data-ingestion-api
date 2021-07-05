@@ -18,4 +18,5 @@ public class RedditConfigs {
   private Set<String> submissionFlairs;
   private Set<String> submissionIgnoredAuthors;
   private Set<String> submissionCommentIgnoredAuthors;
+  private Integer submissionCommentUpvote;
 }
