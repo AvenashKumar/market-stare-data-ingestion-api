@@ -16,11 +16,16 @@ public class SubmissionService {
 
   private final RedditDataCleanService redditDataCleanService;
 
+  private final TickerCommentsService tickerCommentsService;
+
   @Autowired
-  public SubmissionService(final SubmissionRepo submissionRepo,
-      final RedditDataCleanService redditDataCleanService) {
+  public SubmissionService(
+      SubmissionRepo submissionRepo,
+      RedditDataCleanService redditDataCleanService,
+      TickerCommentsService tickerCommentsService) {
     this.submissionRepo = submissionRepo;
     this.redditDataCleanService = redditDataCleanService;
+    this.tickerCommentsService = tickerCommentsService;
   }
 
   private SubmissionEntity updateSubmissionEntity(final Submission submission, final Optional<SubmissionEntity> optSubmissionEntity){
@@ -51,5 +56,9 @@ public class SubmissionService {
     });
 
     submissionRepo.saveAll(submissionEntities);
+
+    tickerCommentsService.mineTickerCommentsFromSubmissions(submissionEntities);
   }
+
+
 }

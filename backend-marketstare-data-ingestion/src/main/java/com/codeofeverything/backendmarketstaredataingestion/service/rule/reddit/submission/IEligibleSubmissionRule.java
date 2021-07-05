@@ -1,4 +1,4 @@
-package com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission;
+package com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission;
 
 import com.codeofeverything.backendmarketstaredataingestion.model.Submission;
 

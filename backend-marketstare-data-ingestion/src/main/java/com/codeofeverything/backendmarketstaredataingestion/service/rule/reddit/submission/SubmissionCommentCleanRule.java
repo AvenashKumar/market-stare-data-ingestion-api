@@ -1,9 +1,9 @@
-package com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission;
+package com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission;
 
 import com.codeofeverything.backendmarketstaredataingestion.model.Submission;
 import com.codeofeverything.backendmarketstaredataingestion.model.SubmissionComment;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.comment.ESubmissionCommentCleanRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.comment.IEligibleSubmissionCommentRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.comment.ESubmissionCommentCleanRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.comment.IEligibleSubmissionCommentRule;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

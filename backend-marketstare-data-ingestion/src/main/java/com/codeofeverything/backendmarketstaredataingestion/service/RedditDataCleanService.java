@@ -1,8 +1,8 @@
 package com.codeofeverything.backendmarketstaredataingestion.service;
 
 import com.codeofeverything.backendmarketstaredataingestion.model.Submission;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.ESubmissionCleanRule;
-import com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.IEligibleSubmissionRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.ESubmissionCleanRule;
+import com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.IEligibleSubmissionRule;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

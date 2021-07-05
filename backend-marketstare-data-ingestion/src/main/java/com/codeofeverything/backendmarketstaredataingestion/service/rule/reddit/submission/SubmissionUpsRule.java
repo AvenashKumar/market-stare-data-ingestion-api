@@ -1,4 +1,4 @@
-package com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission;
+package com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission;
 
 import com.codeofeverything.backendmarketstaredataingestion.configuration.reddit.RedditConfigs;
 import com.codeofeverything.backendmarketstaredataingestion.model.Submission;
@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SubmissionUpvoteRatioRule implements IEligibleSubmissionRule {
+public class SubmissionUpsRule implements IEligibleSubmissionRule {
 
   private final RedditConfigs redditConfigs;
 
   @Autowired
-  public SubmissionUpvoteRatioRule(RedditConfigs redditConfigs) {
+  public SubmissionUpsRule(RedditConfigs redditConfigs) {
     this.redditConfigs = redditConfigs;
   }
 
   @Override
   public boolean validate(Submission submission) {
-    final Double upvoteRatio = submission.getUpvoteRatio();
-    if(ObjectUtils.isEmpty(upvoteRatio))
+    final Integer ups = submission.getUps();
+    if(ObjectUtils.isEmpty(ups))
       return false;
 
-    return upvoteRatio >= this.redditConfigs.getSubmissionUpvoteRatioThreshold();
+    return ups >= this.redditConfigs.getSubmissionUpsThreshold();
   }
 
   @Override
   public ESubmissionCleanRule getEligibleValidatorName() {
-    return ESubmissionCleanRule.SUBMISSION_UPVOTE_RATIO;
+    return ESubmissionCleanRule.SUBMISSION_UPS;
   }
 }

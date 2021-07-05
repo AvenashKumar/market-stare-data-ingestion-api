@@ -1,4 +1,4 @@
-package com.codeofeverything.backendmarketstaredataingestion.service.reddit.submission.comment;
+package com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.comment;
 
 import com.codeofeverything.backendmarketstaredataingestion.configuration.reddit.RedditConfigs;
 import com.codeofeverything.backendmarketstaredataingestion.model.SubmissionComment;
@@ -7,26 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SubmissionCommentIgnoredAuthorRule implements IEligibleSubmissionCommentRule {
+public class SubmissionCommentUpvoteRule implements IEligibleSubmissionCommentRule {
 
   private final RedditConfigs redditConfigs;
 
   @Autowired
-  public SubmissionCommentIgnoredAuthorRule(RedditConfigs redditConfigs) {
+  public SubmissionCommentUpvoteRule(RedditConfigs redditConfigs) {
     this.redditConfigs = redditConfigs;
   }
 
   @Override
   public boolean validate(SubmissionComment submissionComment) {
-    final String author = submissionComment.getAuthor();
-    if(ObjectUtils.isEmpty(author))
+    final Integer score = submissionComment.getScore();
+    if(ObjectUtils.isEmpty(score))
       return false;
 
-    return !redditConfigs.getSubmissionCommentIgnoredAuthors().contains(author.toLowerCase());
+    return score >= redditConfigs.getSubmissionCommentUpvote();
   }
 
   @Override
   public ESubmissionCommentCleanRule getEligibleValidatorName() {
-    return ESubmissionCommentCleanRule.SUBMISSION_COMMENT_IGNORED_AUTHORS;
+    return ESubmissionCommentCleanRule.SUBMISSION_COMMENT_UPVOTE;
   }
 }
