@@ -2,8 +2,10 @@ package com.codeofeverything.backendmarketstaredataingestion.configuration;
 
 import com.codeofeverything.backendmarketstaredataingestion.entity.SentimentAnalysisBlacklistVocabEntity;
 import com.codeofeverything.backendmarketstaredataingestion.entity.SentimentAnalysisHelperVocabEntity;
+import com.codeofeverything.backendmarketstaredataingestion.entity.TickerEntity;
 import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalysisBlacklistVocabRepo;
 import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalysisHelperVocabRepo;
+import com.codeofeverything.backendmarketstaredataingestion.repo.TickerRepo;
 import com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.ESubmissionCleanRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.IEligibleSubmissionRule;
 import com.codeofeverything.backendmarketstaredataingestion.service.rule.reddit.submission.SubmissionCommentCleanRule;
@@ -32,6 +34,8 @@ public class AppConfigs {
 
   private  final SentimentAnalysisBlacklistVocabRepo blacklistVocabRepo;
 
+  private final TickerRepo tickerRepo;
+
   private final SubmissionUpvoteRatioRule submissionUpvoteRatioRule;
 
   private final SubmissionUpsRule submissionUpsRule;
@@ -55,7 +59,8 @@ public class AppConfigs {
       SubmissionFlairRule submissionFlairRule,
       SubmissionIgnoredAuthorRule submissionIgnoredAuthorRule,
       SubmissionCommentIgnoredAuthorRule submissionCommentIgnoredAuthorRule,
-      SubmissionCommentUpvoteRule submissionCommentUpvoteRule) {
+      SubmissionCommentUpvoteRule submissionCommentUpvoteRule,
+      TickerRepo tickerRepo) {
     this.helperVocabRepo = helperVocabRepo;
     this.blacklistVocabRepo = blacklistVocabRepo;
     this.submissionUpvoteRatioRule = submissionUpvoteRatioRule;
@@ -64,6 +69,7 @@ public class AppConfigs {
     this.submissionIgnoredAuthorRule = submissionIgnoredAuthorRule;
     this.submissionCommentIgnoredAuthorRule = submissionCommentIgnoredAuthorRule;
     this.submissionCommentUpvoteRule = submissionCommentUpvoteRule;
+    this.tickerRepo = tickerRepo;
   }
 
   @Autowired
@@ -88,7 +94,19 @@ public class AppConfigs {
 
   @Bean
   TreeSet<String> findAllBlacklistVocabs(){
-    return blacklistVocabRepo.findAll().stream().map(SentimentAnalysisBlacklistVocabEntity::getWord)
+    return blacklistVocabRepo
+        .findAll()
+        .stream()
+        .map(SentimentAnalysisBlacklistVocabEntity::getWord)
+        .collect(Collectors.toCollection(TreeSet::new));
+  }
+
+  @Bean
+  TreeSet<String> findAllTickers(){
+    return tickerRepo
+        .findAll()
+        .stream()
+        .map(TickerEntity::getTicker)
         .collect(Collectors.toCollection(TreeSet::new));
   }
 
