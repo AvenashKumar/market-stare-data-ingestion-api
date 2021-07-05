@@ -21,8 +21,8 @@ public class Submission {
   private String title;
   private String flair;
   @JsonProperty("upvote_ratio")
-  private String upvoteRatio;
-  private String ups;
+  private Double upvoteRatio;
+  private Integer ups;
   @JsonProperty("created_utc")
   private String createdUtc;
   private List<SubmissionComment> comments;

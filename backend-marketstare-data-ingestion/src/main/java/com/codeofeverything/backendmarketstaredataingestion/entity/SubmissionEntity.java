@@ -30,8 +30,8 @@ public class SubmissionEntity {
   private String author;
   private String title;
   private String flair;
-  private String upvoteRatio;
-  private String ups;
+  private Double upvoteRatio;
+  private Integer ups;
   private String createdUtc;
 
   private List<SubmissionComment> comments;

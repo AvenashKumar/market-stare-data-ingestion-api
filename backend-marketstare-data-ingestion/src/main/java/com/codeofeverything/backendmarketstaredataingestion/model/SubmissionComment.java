@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SubmissionComment {
   private String author;
-  private String score;
+  private Integer score;
   private String body;
 }

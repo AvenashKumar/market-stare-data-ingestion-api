@@ -14,9 +14,13 @@ public class SubmissionService {
 
   private final SubmissionRepo submissionRepo;
 
+  private final RedditDataCleanService redditDataCleanService;
+
   @Autowired
-  public SubmissionService(SubmissionRepo submissionRepo) {
+  public SubmissionService(final SubmissionRepo submissionRepo,
+      final RedditDataCleanService redditDataCleanService) {
     this.submissionRepo = submissionRepo;
+    this.redditDataCleanService = redditDataCleanService;
   }
 
   private SubmissionEntity updateSubmissionEntity(final Submission submission, final Optional<SubmissionEntity> optSubmissionEntity){
@@ -37,9 +41,13 @@ public class SubmissionService {
   public void saveSubmissions(List<Submission> submissions) {
     List<SubmissionEntity> submissionEntities = new ArrayList<>();
     submissions.forEach(newSubmission -> {
-      final Optional<SubmissionEntity> optExistingSubmission = submissionRepo.findByRedditSubmissionId(newSubmission.getRedditSubmissionId());
-      final SubmissionEntity submissionEntity = updateSubmissionEntity(newSubmission, optExistingSubmission);
-      submissionEntities.add(submissionEntity);
+      if(this.redditDataCleanService.isEligibleSubmission(newSubmission)) {
+        final Optional<SubmissionEntity> optExistingSubmission = submissionRepo
+            .findByRedditSubmissionId(newSubmission.getRedditSubmissionId());
+        final SubmissionEntity submissionEntity = updateSubmissionEntity(newSubmission,
+            optExistingSubmission);
+        submissionEntities.add(submissionEntity);
+      }
     });
 
     submissionRepo.saveAll(submissionEntities);

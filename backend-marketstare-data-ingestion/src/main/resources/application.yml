@@ -22,3 +22,9 @@ management:
     web:
       exposure:
         include: '*'
+
+data:
+  clean:
+    reddit:
+      submission-upvote-ratio-threshold: 0.70
+      submission-ups-threshold: 20
