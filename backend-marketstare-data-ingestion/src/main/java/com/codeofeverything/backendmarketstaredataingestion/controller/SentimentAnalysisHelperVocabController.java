@@ -25,12 +25,12 @@ public class SentimentAnalysisHelperVocabController {
     this.sentimentAnalysisBlacklistVocabService = sentimentAnalysisBlacklistVocabService;
   }
 
-  @PostMapping("helper/vocab/save")
+  @PostMapping("/helper/vocab/save")
   void saveSentimentAnalysisHelperVocab(@RequestBody final List<SentimentAnalysisHelperVocab> helperVocab){
     sentimentAnalysisHelperVocabService.save(helperVocab);
   }
 
-  @PostMapping("blacklist/vocab/save")
+  @PostMapping("/blacklist/vocab/save")
   void saveSentimentAnalysisBlacklistVocab(@RequestBody final List<SentimentAnalysisBlacklistVocab> blacklistVocab){
     sentimentAnalysisBlacklistVocabService.save(blacklistVocab);
   }

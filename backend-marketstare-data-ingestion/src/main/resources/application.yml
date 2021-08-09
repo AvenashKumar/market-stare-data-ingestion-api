@@ -1,7 +1,11 @@
 server:
-  port: ${PORT:8081}
+  port: ${PORT:8083}
+  servlet:
+    context-path: /${spring.application.name}
 
 spring:
+  application:
+    name: backend-marketstare-data-ingestion
   data:
     mongodb:
       uri: ${MONGODB_URI:mongodb+srv://avenash:UqPdlVMkyLrANdFB@cluster-market-stare.nzz0g.mongodb.net/myFirstDatabase?retryWrites=true&w=majority}
