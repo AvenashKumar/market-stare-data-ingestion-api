@@ -6,6 +6,7 @@ import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalys
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,15 +27,15 @@ public class SentimentAnalysisHelperVocabService {
     SentimentAnalysisHelperVocabEntity helperVocabEntity
         = optionalSentimentHelperVocabEntity.orElse(new SentimentAnalysisHelperVocabEntity());
     helperVocabEntity.setScore(sentimentHelperVocab.getScore());
-    helperVocabEntity.setWord(sentimentHelperVocab.getWord());
+    helperVocabEntity.setWord(sentimentHelperVocab.getWord().toLowerCase());
     return helperVocabEntity;
   }
 
-  public void save(List<SentimentAnalysisHelperVocab> sentimentAnalysisHelperVocabs) {
+  public void save(Set<SentimentAnalysisHelperVocab> sentimentAnalysisHelperVocabs) {
     List<SentimentAnalysisHelperVocabEntity> helperVocabEntities = new ArrayList<>();
     sentimentAnalysisHelperVocabs.forEach(sentimentAnalysisHelperVocab -> {
       final Optional<SentimentAnalysisHelperVocabEntity> optExistingSubmission =
-          sentimentAnalysisHelperVocabRepo.findByWord(sentimentAnalysisHelperVocab.getWord());
+          sentimentAnalysisHelperVocabRepo.findByWord(sentimentAnalysisHelperVocab.getWord().toLowerCase());
       final SentimentAnalysisHelperVocabEntity helperVocabEntity = updateSentimentAnalysisHelperVocabEntity(sentimentAnalysisHelperVocab, optExistingSubmission);
       helperVocabEntities.add(helperVocabEntity);
     });

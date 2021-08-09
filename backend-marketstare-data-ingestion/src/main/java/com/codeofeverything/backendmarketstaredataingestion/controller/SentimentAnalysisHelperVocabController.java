@@ -4,7 +4,7 @@ import com.codeofeverything.backendmarketstaredataingestion.model.SentimentAnaly
 import com.codeofeverything.backendmarketstaredataingestion.model.SentimentAnalysisHelperVocab;
 import com.codeofeverything.backendmarketstaredataingestion.service.SentimentAnalysisBlacklistVocabService;
 import com.codeofeverything.backendmarketstaredataingestion.service.SentimentAnalysisHelperVocabService;
-import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,12 +26,12 @@ public class SentimentAnalysisHelperVocabController {
   }
 
   @PostMapping("/helper/vocab/save")
-  void saveSentimentAnalysisHelperVocab(@RequestBody final List<SentimentAnalysisHelperVocab> helperVocab){
+  void saveSentimentAnalysisHelperVocab(@RequestBody final Set<SentimentAnalysisHelperVocab> helperVocab){
     sentimentAnalysisHelperVocabService.save(helperVocab);
   }
 
   @PostMapping("/blacklist/vocab/save")
-  void saveSentimentAnalysisBlacklistVocab(@RequestBody final List<SentimentAnalysisBlacklistVocab> blacklistVocab){
+  void saveSentimentAnalysisBlacklistVocab(@RequestBody final Set<SentimentAnalysisBlacklistVocab> blacklistVocab){
     sentimentAnalysisBlacklistVocabService.save(blacklistVocab);
   }
 }

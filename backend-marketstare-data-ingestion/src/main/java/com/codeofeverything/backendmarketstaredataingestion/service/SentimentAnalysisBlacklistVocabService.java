@@ -6,6 +6,7 @@ import com.codeofeverything.backendmarketstaredataingestion.repo.SentimentAnalys
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class SentimentAnalysisBlacklistVocabService {
     return blacklistVocabEntity;
   }
 
-  public void save(List<SentimentAnalysisBlacklistVocab> sentimentAnalysisBlacklistVocabs) {
+  public void save(Set<SentimentAnalysisBlacklistVocab> sentimentAnalysisBlacklistVocabs) {
     List<SentimentAnalysisBlacklistVocabEntity> blacklistVocabEntities = new ArrayList<>();
     sentimentAnalysisBlacklistVocabs.forEach(sentimentAnalysisBlacklistVocab -> {
       final Optional<SentimentAnalysisBlacklistVocabEntity> optExistingSubmission =
