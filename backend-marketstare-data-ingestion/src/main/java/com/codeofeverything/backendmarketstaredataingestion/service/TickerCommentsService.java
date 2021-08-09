@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TickerCommentsService {
+
   private final Map<ETickerMiningRule, ITickerMiningRule> mapTickerMiningRules;
 
   private final TickerCommentsRepo tickerCommentsRepo;
@@ -38,51 +39,50 @@ public class TickerCommentsService {
     if (ObjectUtils.isEmpty(submissionEntities))
       return;
 
-
-
-    final  Map<String, Set<TickerComment>> mapAllTickerComments = new HashMap<>();
+    final Map<String, Set<TickerComment>> mapAllTickerComments = new HashMap<>();
     submissionEntities.forEach(submissionEntity -> {
-      final  Map<String, Set<TickerComment>> mapTickerComments = mineTickerComments(
+      final Map<String, Set<TickerComment>> mapTickerComments = mineTickerComments(
           submissionEntity.getComments());
 
-      for(Map.Entry<String, Set<TickerComment>> entry: mapTickerComments.entrySet()){
-        if(mapAllTickerComments.containsKey(entry.getKey())){
+      for (Map.Entry<String, Set<TickerComment>> entry : mapTickerComments.entrySet()) {
+        if (mapAllTickerComments.containsKey(entry.getKey())) {
           mapAllTickerComments.get(entry.getKey()).addAll(entry.getValue());
-        }else {
+        } else {
           mapAllTickerComments.put(entry.getKey(), entry.getValue());
         }
       }
     });
 
-
     final List<TickerCommentsEntity> tickerCommentsEntities = new ArrayList<>();
-    mapAllTickerComments.forEach((ticker, tickerComments) -> tickerCommentsEntities.add(TickerCommentsEntity
-        .builder()
-        .ticker(ticker)
-        .tickerComments(tickerComments)
-        .build()));
+    mapAllTickerComments
+        .forEach((ticker, tickerComments) -> tickerCommentsEntities.add(TickerCommentsEntity
+            .builder()
+            .ticker(ticker)
+            .tickerComments(tickerComments)
+            .build()));
 
     upsertTickerComments(tickerCommentsEntities);
   }
 
-  private void upsertTickerComments(final List<TickerCommentsEntity> tickerCommentsEntities){
+  private void upsertTickerComments(final List<TickerCommentsEntity> tickerCommentsEntities) {
     List<TickerCommentsEntity> updatedTickerEntities = new LinkedList<>();
     tickerCommentsEntities.forEach(tickerCommentsEntity -> {
       Optional<TickerCommentsEntity> optSavedTickerComment = tickerCommentsRepo
           .findByTicker(tickerCommentsEntity.getTicker());
 
-      if(optSavedTickerComment.isPresent()){
+      if (optSavedTickerComment.isPresent()) {
         TickerCommentsEntity savedEntity = optSavedTickerComment.get();
         savedEntity.getTickerComments().addAll(tickerCommentsEntity.getTickerComments());
         updatedTickerEntities.add(savedEntity);
-      }else{
+      } else {
         updatedTickerEntities.add(tickerCommentsEntity);
       }
     });
     this.tickerCommentsRepo.saveAll(updatedTickerEntities);
   }
 
-  private Map<String, Set<TickerComment>> mineTickerComments(List<SubmissionComment> submissionComments) {
+  private Map<String, Set<TickerComment>> mineTickerComments(
+      List<SubmissionComment> submissionComments) {
     Map<String, Set<TickerComment>> mapTickerComments = new LinkedHashMap<>();
     submissionComments.forEach(submissionComment -> {
       final Optional<TickerComment> optionalTickerComment = mineTickerComment(submissionComment);
@@ -101,15 +101,15 @@ public class TickerCommentsService {
     return mapTickerComments;
   }
 
-  private Optional<TickerComment> mineTickerComment(SubmissionComment submissionComment){
+  private Optional<TickerComment> mineTickerComment(SubmissionComment submissionComment) {
     final String comment = submissionComment.getBody();
-    if(ObjectUtils.isEmpty(comment))
+    if (ObjectUtils.isEmpty(comment))
       return Optional.empty();
 
     final String[] words = comment.split(" ");
-    for(final String word: words){
+    for (final String word : words) {
       final String updatedWord = applyPreProcessingRules(word);
-      if(isTicker(updatedWord)){
+      if (isTicker(updatedWord)) {
         return Optional.of(TickerComment.builder()
             .comment(comment)
             .ticker(updatedWord)
@@ -120,17 +120,17 @@ public class TickerCommentsService {
     return Optional.empty();
   }
 
-  private String applyPreProcessingRules(final String word){
+  private String applyPreProcessingRules(final String word) {
     return replaceDollarSign(word);
   }
 
-  private String replaceDollarSign(final String word){
+  private String replaceDollarSign(final String word) {
     return word.replace("$", "");
   }
 
-  private boolean isTicker(final String word){
-    for(Map.Entry<ETickerMiningRule, ITickerMiningRule> entry: mapTickerMiningRules.entrySet()){
-      if(!entry.getValue().validate(word))
+  private boolean isTicker(final String word) {
+    for (Map.Entry<ETickerMiningRule, ITickerMiningRule> entry : mapTickerMiningRules.entrySet()) {
+      if (!entry.getValue().validate(word))
         return false;
     }
     return true;
